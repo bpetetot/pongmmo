@@ -1,0 +1,23 @@
+{
+  "name": "pongmmo",
+  "version": "0.0.1",
+  "description": "A MMO based on pong game's concepts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mmo",
+    "pong",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "box2d.js": "^1.0.0",
+    "express": "^4.14.0",
+    "lodash": "^4.16.4",
+    "pixi.js": "^4.0.3",
+    "socket.io": "^1.5.0"
+  }
+}
