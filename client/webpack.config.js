@@ -5,17 +5,11 @@ const dev = (process.env.NODE_ENV !== 'production')
 
 function getEntrySources(sources) {
   if (dev) {
-    sources.push('webpack-dev-server/client?http://localhost:3000')
+    sources.push('webpack-dev-server/client?http://192.168.43.60:8888')
     sources.push('webpack/hot/only-dev-server')
   }
 
   return sources
-}
-
-function getLoaders(loaders) {
-  loaders.push('babel')
-
-  return loaders
 }
 
 function getPlugins(plugins) {
@@ -30,23 +24,23 @@ module.exports = {
   devtool: dev ? 'eval' : '',
   entry: {
     pongmmo: getEntrySources([
-      './src',
+      './src/main.js',
     ]),
   },
   output: {
     path: path.join(__dirname, 'public'),
-    filename: '[name].js',
+    filename: 'bundle.js',
     publicPath: '/',
   },
   resolve: {
     root: [path.resolve('./src'), path.resolve('./src/components')],
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js'],
   },
   plugins: getPlugins([]),
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loaders: getLoaders([]),
+      loaders: ['babel'],
     }],
   },
 }
