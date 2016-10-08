@@ -1,8 +1,31 @@
-const io = require('socket.io')(8000)
+const io = require('socket.io')(9000)
+const PlayerModel = require('./player')
+
+const WIDTH = 800
+const HEIGHT = 600
+const NAMES = ['Pierre', 'Charles', 'Yvonne', 'Jules', 'Maxime', 'Florent', 'Angéline', 'Julie']
+
+const rand = (min, max) => Math.floor((Math.random() * max) + min)
+
+const players = []
 
 io.on('connection', (socket) => {
-  socket.emit('news', { hello: 'world' })
-  socket.on('my other event', (data) => {
-    console.log(data)
-  })
+  // Give players
+  socket.emit(PlayerModel.actions.SET_PLAYERS, players)
+
+  // Generate a new player
+  const newPlayer = {
+    name: NAMES[rand(0, NAMES.length - 1)],
+    x: rand(0, WIDTH),
+    y: rand(0, HEIGHT),
+  }
+  players.push(newPlayer)
+  console.log(`New player: ${newPlayer.name}`)
+
+  // Send it to socket and to everybody
+  socket.emit(PlayerModel.actions.SET_PLAYER, newPlayer)
+  io.emit(PlayerModel.actions.ADD_PLAYER, newPlayer)
+
+  // Connect events
+  socket.on(PlayerModel.actions.UPDATE_PLAYER, player => PlayerModel.cb.update(io, socket, player))
 })
