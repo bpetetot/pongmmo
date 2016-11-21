@@ -1,6 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 
+// vendors manifests
+const pixijs = require('./vendors/pixijs-manifest.json')
+const socketio = require('./vendors/socketio-manifest.json')
+
 const dev = (process.env.NODE_ENV !== 'production')
 
 function getEntrySources(sources) {
@@ -14,6 +18,8 @@ function getEntrySources(sources) {
 function getPlugins(plugins) {
   if (dev) {
     plugins.push(new webpack.HotModuleReplacementPlugin())
+    plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: pixijs }))
+    plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: socketio }))
   }
 
   return plugins
