@@ -1,0 +1,18 @@
+machine:
+  node:
+    version: 5.5.0
+
+  post:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+
+dependencies:
+  cache_directories:
+    - "~/.yarn-cache"
+
+  override:
+    - yarn install
+
+test:
+  override:
+    - yarn lint
+#    - yarn test
