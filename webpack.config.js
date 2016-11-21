@@ -5,7 +5,6 @@ const dev = (process.env.NODE_ENV !== 'production')
 
 function getEntrySources(sources) {
   if (dev) {
-    sources.push('webpack-dev-server/client?http://192.168.43.60:8888')
     sources.push('webpack/hot/only-dev-server')
   }
 
@@ -24,12 +23,12 @@ module.exports = {
   devtool: dev ? 'eval' : '',
   entry: {
     pongmmo: getEntrySources([
-      './src/main.js',
+      './src/client.js',
     ]),
   },
   output: {
-    path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'client.js',
     publicPath: '/',
   },
   resolve: {

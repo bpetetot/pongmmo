@@ -8,7 +8,7 @@ const update = (io, socket, player) => {
   io.emit(UPDATE_PLAYER, player)
 }
 
-module.exports = {
+export default {
   actions: {
     UPDATE_PLAYER,
     SET_PLAYERS,

@@ -1,5 +1,7 @@
-const io = require('socket.io')(9000)
-const PlayerModel = require('./player')
+import socketIO from 'socket.io'
+import PlayerModel from './player'
+
+const io = socketIO(9000)
 
 const WIDTH = 800
 const HEIGHT = 600

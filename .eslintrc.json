@@ -4,6 +4,10 @@
   "globals": {
     "fetch": false
   },
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
     "semi": [2, "never"],
     "arrow-body-style": 0,
