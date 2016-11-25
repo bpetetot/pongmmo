@@ -4,7 +4,7 @@
   "description": "A MMO based on pong game's concepts",
   "main": "index.js",
   "scripts": {
-    "client": "webpack-dev-server --hot --host=0.0.0.0 --port=3000 --history-api-fallback --no-info=true",
+    "client": "webpack-dev-server --hot --host=0.0.0.0 --port=3000 --history-api-fallback",
     "server": "npm-run-all --parallel watch:server watch:build",
     "watch:build": "webpack --watch --config webpack.config.server.js",
     "watch:server": "nodemon './dist/server.js' --watch './dist'",
@@ -34,8 +34,8 @@
     "file-loader": "^0.9.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^3.1.1",
-    "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack": "2.1.0-beta.26",
+    "webpack-dev-server": "2.1.0-beta.11"
   },
   "author": "",
   "license": "MIT",

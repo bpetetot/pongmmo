@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import 'file?name=[name].[ext]!./index.html'
-import avatarFile from 'file!../assets/fabien.png'
+import 'file-loader?name=[name].[ext]!./index.html'
+import avatarFile from 'file-loader!../assets/fabien.png'
 import io from 'socket.io-client'
 /* eslint-enable import/no-extraneous-dependencies */
 const PIXI = require('pixi.js')

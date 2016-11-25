@@ -17,13 +17,13 @@ module.exports = {
     filename: 'server.js',
   },
   resolve: {
-    root: [path.resolve('./src')],
-    extensions: ['', '.js'],
+    modules: [path.resolve('./src')],
+    extensions: ['.js'],
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js/,
-      loaders: ['babel'],
+      use: ['babel-loader'],
     }],
   },
   externals: nodeModules,

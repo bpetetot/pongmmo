@@ -38,14 +38,17 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    root: [path.resolve('./src'), path.resolve('./src/components')],
-    extensions: ['', '.js'],
+    modules: [
+      path.resolve('./src'),
+      'node_modules',
+    ],
+    extensions: ['.js'],
   },
   plugins: getPlugins([]),
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
-      loaders: ['babel'],
+      use: ['babel-loader'],
     }],
   },
 }
