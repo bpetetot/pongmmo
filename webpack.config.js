@@ -27,6 +27,14 @@ function getPlugins(plugins) {
 
 module.exports = {
   devtool: dev ? 'eval' : '',
+  devServer: {
+    proxy: {
+      '/socket.io': {
+        target: 'ws://localhost:9000',
+        ws: true,
+      },
+    },
+  },
   entry: {
     pongmmo: getEntrySources([
       './src/client.js',

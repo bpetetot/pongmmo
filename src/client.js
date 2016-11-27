@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 /* eslint-enable import/no-extraneous-dependencies */
 const PIXI = require('pixi.js')
 
-const socket = io('http://localhost:9000')
+const socket = io()
 
 // You can use either `new PIXI.WebGLRenderer`, `new PIXI.CanvasRenderer`,
 // or `PIXI.autoDetectRenderer` which will try to choose the best renderer
