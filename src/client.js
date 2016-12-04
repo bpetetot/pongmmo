@@ -1,8 +1,12 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies  */
+/* eslint-disable import/extensions */
 import 'file-loader?name=[name].[ext]!./index.html'
-import avatarFile from 'file-loader!../assets/fabien.png'
+import avatarFile from 'file-loader!../assets/avatar.png'
 import io from 'socket.io-client'
+/* eslint-enable import/extensions */
 /* eslint-enable import/no-extraneous-dependencies */
+import { SET_PLAYERS, UPDATE_PLAYER } from './events'
+
 const PIXI = require('pixi.js')
 
 const socket = io()
@@ -24,22 +28,7 @@ const stage = new PIXI.Container()
 let player = null
 const players = []
 
-
 const ticker = new PIXI.ticker.Ticker()
-
-
-socket.on('SET_PLAYER', (data) => {
-  // load the texture we need
-  PIXI.loader.add('player', avatarFile).load((loader, resources) => {
-    // This creates a texture from a 'avatar.png' image.
-    player = new PIXI.Sprite(resources.player.texture)
-    // Setup the position and scale of the avatar
-    player.position.x = data.x
-    player.position.y = data.y
-    // Add the avatar to the scene we are building.
-    stage.addChild(player)
-  })
-})
 
 function updateFPS() {
   fps.innerHTML = `FPS : ${ticker.FPS}`
@@ -58,15 +47,16 @@ function animate() {
   renderer.render(stage)
 }
 
-socket.on('SET_PLAYERS', (data) => {
+socket.on(SET_PLAYERS, (data) => {
   data.forEach((p, i) => {
     // load the texture we need
     PIXI.loader.add(`player ${i}`, avatarFile).load((loader, resources) => {
       // This creates a texture from a 'avatar.png' image.
-      player = new PIXI.Sprite(resources.player.texture)
+      player = new PIXI.Sprite(resources[`player ${i}`].texture)
       // Setup the position and scale of the avatar
       player.position.x = p.x
       player.position.y = p.y
+      player.raw = p
       // Add the avatar to the scene we are building.
       stage.addChild(player)
       players.push(player)
@@ -76,20 +66,23 @@ socket.on('SET_PLAYERS', (data) => {
   animate()
 })
 
-socket.on('UPDATE_PLAYER', (data) => {
+socket.on(UPDATE_PLAYER, (data) => {
   const p = players[0]
-  // Setup the position and scale of the avatar
-  p.position.x = data.x
-  p.position.y = data.y
+
+  if (p && p.position && data) {
+    // Setup the position and scale of the avatar
+    p.position.x = data.x
+    p.position.y = data.y
+  }
 })
 
 document.addEventListener('keydown', (event) => {
   const keyName = event.key
   if (keyName === 'ArrowLeft') {
     player.x -= 10
-    socket.emit('UPDATE_PLAYER', { x: player.x, y: player.y })
+    socket.emit(UPDATE_PLAYER, { ...player.raw, x: player.x, y: player.y })
   } else if (keyName === 'ArrowRight') {
     player.x += 10
-    socket.emit('UPDATE_PLAYER', { x: player.x, y: player.y })
+    socket.emit(UPDATE_PLAYER, { ...player.raw, x: player.x, y: player.y })
   }
 }, false)

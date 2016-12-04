@@ -61,7 +61,7 @@
 /******/ 	__webpack_require__.p = "/";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 232);
+/******/ 	return __webpack_require__(__webpack_require__.s = 235);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -21122,17 +21122,24 @@ module.exports = yeast;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_file_loader_name_name_ext_index_html__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_file_loader_name_name_ext_index_html__ = __webpack_require__(233);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_file_loader_name_name_ext_index_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_file_loader_name_name_ext_index_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_fabien_png__ = __webpack_require__(229);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_fabien_png___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_file_loader_assets_fabien_png__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_avatar_png__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_avatar_png___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_file_loader_assets_avatar_png__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__(219);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_socket_io_client__);
-/* eslint-disable import/no-extraneous-dependencies */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events__ = __webpack_require__(229);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+/* eslint-disable import/no-extraneous-dependencies  */
+/* eslint-disable import/extensions */
 
 
 
+/* eslint-enable import/extensions */
 /* eslint-enable import/no-extraneous-dependencies */
+
+
 var PIXI = __webpack_require__(190);
 
 var socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default()();
@@ -21156,19 +21163,6 @@ var players = [];
 
 var ticker = new PIXI.ticker.Ticker();
 
-socket.on('SET_PLAYER', function (data) {
-  // load the texture we need
-  PIXI.loader.add('player', __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_fabien_png___default.a).load(function (loader, resources) {
-    // This creates a texture from a 'avatar.png' image.
-    player = new PIXI.Sprite(resources.player.texture);
-    // Setup the position and scale of the avatar
-    player.position.x = data.x;
-    player.position.y = data.y;
-    // Add the avatar to the scene we are building.
-    stage.addChild(player);
-  });
-});
-
 function updateFPS() {
   fps.innerHTML = 'FPS : ' + ticker.FPS;
 }
@@ -21186,15 +21180,16 @@ function animate() {
   renderer.render(stage);
 }
 
-socket.on('SET_PLAYERS', function (data) {
+socket.on(__WEBPACK_IMPORTED_MODULE_3__events__["a" /* SET_PLAYERS */], function (data) {
   data.forEach(function (p, i) {
     // load the texture we need
-    PIXI.loader.add('player ' + i, __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_fabien_png___default.a).load(function (loader, resources) {
+    PIXI.loader.add('player ' + i, __WEBPACK_IMPORTED_MODULE_1_file_loader_assets_avatar_png___default.a).load(function (loader, resources) {
       // This creates a texture from a 'avatar.png' image.
-      player = new PIXI.Sprite(resources.player.texture);
+      player = new PIXI.Sprite(resources['player ' + i].texture);
       // Setup the position and scale of the avatar
       player.position.x = p.x;
       player.position.y = p.y;
+      player.raw = p;
       // Add the avatar to the scene we are building.
       stage.addChild(player);
       players.push(player);
@@ -21204,21 +21199,24 @@ socket.on('SET_PLAYERS', function (data) {
   animate();
 });
 
-socket.on('UPDATE_PLAYER', function (data) {
+socket.on(__WEBPACK_IMPORTED_MODULE_3__events__["b" /* UPDATE_PLAYER */], function (data) {
   var p = players[0];
-  // Setup the position and scale of the avatar
-  p.position.x = data.x;
-  p.position.y = data.y;
+
+  if (p && p.position && data) {
+    // Setup the position and scale of the avatar
+    p.position.x = data.x;
+    p.position.y = data.y;
+  }
 });
 
 document.addEventListener('keydown', function (event) {
   var keyName = event.key;
   if (keyName === 'ArrowLeft') {
     player.x -= 10;
-    socket.emit('UPDATE_PLAYER', { x: player.x, y: player.y });
+    socket.emit(__WEBPACK_IMPORTED_MODULE_3__events__["b" /* UPDATE_PLAYER */], _extends({}, player.raw, { x: player.x, y: player.y }));
   } else if (keyName === 'ArrowRight') {
     player.x += 10;
-    socket.emit('UPDATE_PLAYER', { x: player.x, y: player.y });
+    socket.emit(__WEBPACK_IMPORTED_MODULE_3__events__["b" /* UPDATE_PLAYER */], _extends({}, player.raw, { x: player.x, y: player.y }));
   }
 }, false);
 
@@ -23371,7 +23369,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(231);
+    NodeWebSocket = __webpack_require__(234);
   } catch (e) {}
 }
 
@@ -46266,22 +46264,53 @@ module.exports = {
 /* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "fb8bbc755e1cf38e011d9c5b1f7769c3.png";
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__socketio__ = __webpack_require__(231);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(exports, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__player__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(exports, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__player__["b"]; });
+/* unused harmony namespace reexport */
+
+
 
 /***/ },
 /* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "index.html";
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return UPDATE_PLAYER; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return SET_PLAYERS; });
+var UPDATE_PLAYER = 'UPDATE_PLAYER';
+var SET_PLAYERS = 'SET_PLAYERS';
 
 /***/ },
 /* 231 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* unused harmony export CONNECTION */
+var CONNECTION = 'connection';
+
+/***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "8a20bd7c349a3072a7306e1af14f7040.png";
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "index.html";
+
+/***/ },
+/* 234 */
 /***/ function(module, exports) {
 
 /* (ignored) */
 
 /***/ },
-/* 232 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(105);

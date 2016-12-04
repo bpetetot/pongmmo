@@ -13,3 +13,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
+    environment:
+      - DB_HOST=db
+
+  db:
+    image: rethinkdb
