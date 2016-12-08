@@ -2,8 +2,9 @@ const path = require('path')
 const webpack = require('webpack')
 
 // vendors manifests
-const pixijs = require('./vendors/pixijs-manifest.json')
-const socketio = require('./vendors/socketio-manifest.json')
+const pixijs = require('./dist/vendors/pixijs-manifest.json')
+const socketio = require('./dist/vendors/socketio-manifest.json')
+const matterjs = require('./dist/vendors/matterjs-manifest.json')
 
 const dev = (process.env.NODE_ENV !== 'production')
 
@@ -20,13 +21,14 @@ function getPlugins(plugins) {
     plugins.push(new webpack.HotModuleReplacementPlugin())
     plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: pixijs }))
     plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: socketio }))
+    plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: matterjs }))
   }
 
   return plugins
 }
 
 module.exports = {
-  devtool: dev ? 'eval' : '',
+  devtool: dev ? 'eval-source-map' : '',
   devServer: {
     proxy: {
       '/socket.io': {

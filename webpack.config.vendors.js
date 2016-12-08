@@ -4,15 +4,16 @@ module.exports = {
   entry: {
     pixijs: ['pixi.js'],
     socketio: ['socket.io-client'],
+    matterjs: ['matter-js'],
   },
   output: {
     filename: '[name].bundle.js',
-    path: 'vendors/',
+    path: 'dist/vendors/',
     library: '[name]_lib',
   },
   plugins: [
     new webpack.DllPlugin({
-      path: 'vendors/[name]-manifest.json',
+      path: 'dist/vendors/[name]-manifest.json',
       name: '[name]_lib',
     }),
   ],
