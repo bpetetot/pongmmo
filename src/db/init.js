@@ -1,4 +1,5 @@
 import rethink from 'rethinkdb'
+import logger from '../logger'
 import { DEFAULT_OPTIONS, TABLES } from './constants'
 
 const DB_OPTIONS = {
@@ -7,7 +8,7 @@ const DB_OPTIONS = {
   database: process.env.DB_DATABASE || DEFAULT_OPTIONS.DB.DATABASE,
 }
 
-console.log('"options":', JSON.stringify({ db: DB_OPTIONS }, null, 2))
+logger.log('"options": %j', { db: DB_OPTIONS })
 
 let initiated
 let conn
@@ -18,7 +19,8 @@ export default async () => {
       conn = await rethink.connect(DB_OPTIONS)
       const dbs = await rethink.dbList().run(conn)
 
-      console.log(`[DB] Creating and connection to database ${DB_OPTIONS.database}`)
+      logger.debug('[DB] Creating and connection to database %s', DB_OPTIONS.database)
+
       if (dbs.includes(DB_OPTIONS.database)) {
         await rethink.dbDrop(DB_OPTIONS.database).run(conn)
       }
@@ -26,9 +28,9 @@ export default async () => {
       await conn.use(DB_OPTIONS.database)
 
       const promises = []
-      console.log('[DB] Creating tables :')
+      logger.debug('[DB] Creating tables :')
       for (const table of Object.values(TABLES)) {
-        console.log(`[DB] \t- ${table}`)
+        logger.debug('[DB] \t- %s', table)
         promises.push(rethink.tableCreate(table).run(conn))
       }
 

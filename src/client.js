@@ -1,6 +1,5 @@
 import io from 'socket.io-client'
 import { SET_PLAYERS, UPDATE_PLAYER } from './events'
-
 import { PhysicEngine } from './physic'
 
 const socket = io()
@@ -13,7 +12,6 @@ const physics = new PhysicEngine({
 })
 
 physics.init()
-
 
 socket.on(SET_PLAYERS, (data) => {
   data.forEach((p) => {
