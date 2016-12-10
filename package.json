@@ -4,18 +4,19 @@
   "description": "A MMO based on pong game's concepts",
   "main": "index.js",
   "scripts": {
-    "client": "webpack-dev-server --hot --host=0.0.0.0 --port=3000 --content-base=./dist",
+    "client": "webpack-dev-server --config misc/webpack.config.js --hot --host=0.0.0.0 --port=3000 --content-base=./dist",
     "server": "npm-run-all --parallel watch:server watch:build",
-    "watch:build": "webpack --watch --config webpack.config.server.js",
+    "watch:build": "webpack --watch --config misc/webpack.config.server.js",
     "watch:server": "nodemon './dist/server.js' --watch './dist'",
     "lint": "eslint src/",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vendors": "webpack --config webpack.config.vendors.js",
-    "build": "NODE_ENV=production webpack && webpack --config webpack.config.server.js",
+    "vendors": "webpack -p --config misc/webpack.config.vendors.js",
+    "build": "NODE_ENV=production npm run vendors && webpack -p --config ./misc/webpack.config.js && webpack -p --config misc/webpack.config.server.js",
     "docker": "docker-compose up --build",
     "db": "docker run --rm -p \"28015:28015\" -p \"8080:8080\" rethinkdb"
   },
   "devDependencies": {
+    "add-asset-html-webpack-plugin": "^1.0.2",
     "babel-core": "~6.14.0",
     "babel-eslint": "~6.1.2",
     "babel-loader": "~6.2.4",
@@ -35,6 +36,7 @@
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^6.0.0",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.24.1",
     "nodemon": "^1.11.0",
     "npm-run-all": "^3.1.1",
     "webpack": "2.1.0-beta.26",
@@ -50,5 +52,53 @@
     "socket.io": "^1.5.0",
     "socket.io-client": "^1.7.1",
     "winston": "^2.3.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread",
+      "transform-async-to-generator"
+    ],
+    "presets": [
+      "es2017",
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ],
+      "stage-0"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb"
+    ],
+    "plugins": [
+      "babel",
+      "import"
+    ],
+    "globals": {
+      "fetch": false
+    },
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "semi": [
+        2,
+        "never"
+      ],
+      "arrow-body-style": 0,
+      "import/no-named-as-default": 0,
+      "import/prefer-default-export": 0,
+      "import/no-unresolved": 0,
+      "generator-star-spacing": 0,
+      "babel/generator-star-spacing": 1,
+      "react/require-extension": 0,
+      "import/extensions": 1
+    }
   }
 }
