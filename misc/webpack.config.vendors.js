@@ -4,7 +4,7 @@ module.exports = {
   entry: {
     pixijs: ['pixi.js'],
     socketio: ['socket.io-client'],
-    matterjs: ['matter-js'],
+    p2: ['p2'],
   },
   output: {
     filename: '[name].bundle.js',
@@ -17,5 +17,10 @@ module.exports = {
       name: '[name]_lib',
     }),
   ],
+  module: {
+    rules: [
+      { test: /\.json$/, use: ['json-loader'] },
+    ],
+  },
   externals: './node_modules',
 }

@@ -2772,6 +2772,10 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
+json-loader@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.4.tgz#8baa1365a632f58a3c46d20175fc6002c96e37de"
+
 json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
@@ -2983,10 +2987,6 @@ lru-cache@^4.0.1:
 map-stream@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194"
-
-matter-js@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/matter-js/-/matter-js-0.11.1.tgz#ec0653f09f58d1eabfa4eed97a9baa18d8089036"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -3342,6 +3342,12 @@ osenv@^0.1.0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+p2@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/p2/-/p2-0.7.1.tgz#25f2474d9bc3a6d3140a1da26a67c9e118ac9543"
+  dependencies:
+    poly-decomp "0.1.1"
+
 package-json@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/package-json/-/package-json-1.2.0.tgz#c8ecac094227cdf76a316874ed05e27cc939a0e0"
@@ -3474,7 +3480,7 @@ pixi-gl-core@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/pixi-gl-core/-/pixi-gl-core-1.0.3.tgz#3bd4fb3538a2ee601a048d8dc01f6df55e0b3550"
 
-pixi.js@^4.0.3:
+pixi.js@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-4.2.3.tgz#0067c8360ed301b319106e2c2bba49579b4248b0"
   dependencies:
@@ -3501,6 +3507,10 @@ pkg-up@^1.0.0:
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
+
+poly-decomp@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/poly-decomp/-/poly-decomp-0.1.1.tgz#9f68c4fa558663791c9ba4c2df7283f3096c23c9"
 
 portfinder@^1.0.9:
   version "1.0.10"

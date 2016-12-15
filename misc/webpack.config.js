@@ -6,7 +6,7 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 // vendors manifests
 const pixijs = require('../dist/pixijs-manifest.json')
 const socketio = require('../dist/socketio-manifest.json')
-const matterjs = require('../dist/matterjs-manifest.json')
+const p2 = require('../dist/p2-manifest.json')
 
 const dev = (process.env.NODE_ENV !== 'production')
 
@@ -25,19 +25,19 @@ function getPlugins(plugins) {
 
   plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: pixijs }))
   plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: socketio }))
-  plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: matterjs }))
+  plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: p2 }))
 
 
   plugins.push(new HtmlWebpackPlugin({ hash: true, template: require.resolve('./index.html') }))
   plugins.push(new AddAssetHtmlPlugin({ filepath: require.resolve('../dist/pixijs.bundle.js'), hash: true, includeSourcemap: false }))
   plugins.push(new AddAssetHtmlPlugin({ filepath: require.resolve('../dist/socketio.bundle.js'), hash: true, includeSourcemap: false }))
-  plugins.push(new AddAssetHtmlPlugin({ filepath: require.resolve('../dist/matterjs.bundle.js'), hash: true, includeSourcemap: false }))
+  plugins.push(new AddAssetHtmlPlugin({ filepath: require.resolve('../dist/p2.bundle.js'), hash: true, includeSourcemap: false }))
 
   return plugins
 }
 
 module.exports = {
-  devtool: dev ? 'eval-source-map' : '',
+  devtool: dev ? 'eval' : '',
   devServer: {
     proxy: {
       '/socket.io': {
@@ -65,9 +65,9 @@ module.exports = {
   },
   plugins: getPlugins([]),
   module: {
-    rules: [{
-      test: /\.jsx?$/,
-      use: ['babel-loader'],
-    }],
+    rules: [
+      { test: /\.jsx?$/, use: ['babel-loader'] },
+      { test: /\.json$/, use: ['json-loader'] },
+    ],
   },
 }

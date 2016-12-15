@@ -1,46 +1,73 @@
 import io from 'socket.io-client'
 import { SET_PLAYERS, UPDATE_PLAYER } from './events'
-import { PhysicEngine } from './physic'
+import { WIDTH, HEIGHT } from './config'
+import * as Renderer from './renderer'
+import * as Physics from './physic'
+import { convert } from './renderer/convertor'
 
 const socket = io()
 
-const players = {}
-let currentPlayerId
+let boxes = []
 
-const physics = new PhysicEngine({
-  render: 'main',
+// Initialize
+const physicWold = Physics.init()
+Renderer.init({
+  view: 'main',
+  width: WIDTH,
+  height: HEIGHT,
 })
 
-physics.init()
+// Prepare map
+Renderer.add(
+  ...Renderer.renderWalls(
+    physicWold.bodies.filter(b => b.gameType === Physics.GAME_TYPE_WALL)
+  )
+)
 
 socket.on(SET_PLAYERS, (data) => {
-  data.forEach((p) => {
-    currentPlayerId = p.id
-    if (!players[p.id]) {
-      const player = {
-        id: p.id,
-        body: physics.createPlayer(p.id, p.x, p.y),
-      }
-      players[p.id] = player
-    }
+  boxes = data.map((player) => {
+    const box = Physics.createBox(player.x, player.y)
+
+    Physics.addBodies(box)
+    return Renderer.renderBox(box)
   })
+
+  Renderer.add(...boxes)
 })
 
-socket.on(UPDATE_PLAYER, (data) => {
-  console.log(data)
+socket.on(UPDATE_PLAYER, () => {
+  // console.log(data)
   // scene.onSetPlayer(data.id, data.x, data.y)
 })
 
 document.addEventListener('keydown', (event) => {
-  if (currentPlayerId) {
-    const keyName = event.key
-    const player = players[currentPlayerId]
-    if (keyName === 'ArrowLeft') {
-      physics.move('left', player.id)
-      // socket.emit(UPDATE_PLAYER, { ...player, x: player.x, y: player.y })
-    } else if (keyName === 'ArrowRight') {
-      physics.move('right', player.id)
-      // socket.emit(UPDATE_PLAYER, { ...player, x: player.x, y: player.y })
-    }
+  const keyName = event.key
+  // const player = players[currentPlayerId]
+  if (keyName === 'ArrowLeft') {
+    // socket.emit(UPDATE_PLAYER, { ...player, x: player.x, y: player.y })
+  } else if (keyName === 'ArrowRight') {
+    // socket.emit(UPDATE_PLAYER, { ...player, x: player.x, y: player.y })
   }
 }, false)
+
+
+// Animation loop
+function loop() {
+  requestAnimationFrame(loop)
+
+  Physics.tick()
+
+  boxes.forEach((box) => {
+    const { graphics, body } = box
+    const { x, y } = convert(body)
+
+    graphics.position.x = x
+    graphics.position.y = y
+    graphics.rotation = body.interpolatedAngle
+  })
+
+  // Render scene
+  Renderer.render()
+}
+
+loop()

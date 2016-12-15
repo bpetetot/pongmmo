@@ -1,89 +1,51 @@
-import { Engine, World, Bodies, Render, Body, Composite } from 'matter-js'
+import p2 from 'p2'
+// import { GAME_TYPE_WALL, GAME_TYPE_BOX } from './entities'
+import { createWalls } from './entities/walls'
 import { WIDTH, HEIGHT } from '../config'
 
-export class PhysicEngine {
+let world
+// let ticks = 0
 
-  constructor(options) {
-    this.options = options
-    this.engine = Engine.create()
-    this.engine.world.gravity.y = 0
-    this.engine.world.gravity.scale = 0
-  }
+export const addBodies = (...bodies) => {
+  bodies.forEach(b => world.addBody(b))
 
-  init() {
-    // render by default for debugging
-    if (this.options.render) {
-      const render = Render.create({
-        element: document.getElementById(this.options.render),
-        engine: this.engine,
-        options: {
-          showVelocity: true,
-        },
-      })
-      Render.run(render)
-    }
-    // Add ground
-    this.createGround()
+  if (bodies.length === 1) return bodies[0]
+  return bodies
+}
 
-    // Execute engine
-    Engine.run(this.engine)
+export const init = () => {
+  world = new p2.World({
+    gravity: [0, 10],
+  })
 
-    const ball = this.createBall()
-    Body.setVelocity(ball, { x: -4, y: 10 })
-  }
+  world.islandSplit = true
+  world.sleepMode = p2.World.ISLAND_SLEEPING
+  world.solver.iterations = 20
+  world.solver.tolerance = 0.001
+  world.setGlobalStiffness(1e4)
 
-  createGround() {
-    const options = {
-      isStatic: true,
-      restitution: 1,
-      friction: 0,
-      frictionAir: 0,
-      frictionStatic: 0,
-    }
-    const bottom = Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 5, options)
-    const top = Bodies.rectangle(WIDTH / 2, 10, WIDTH, 5, options)
-    const left = Bodies.rectangle(10, HEIGHT / 2, 5, HEIGHT, options)
-    const right = Bodies.rectangle(WIDTH - 10, HEIGHT / 2, 5, HEIGHT, options)
-    World.add(this.engine.world, [bottom, top, left, right])
-  }
+  addBodies(...createWalls(WIDTH, HEIGHT))
 
-  createBall() {
-    const options = {
-      inertia: Infinity, // avoid rotation
-      restitution: 1,
-      friction: 0,
-      frictionAir: 0,
-      frictionStatic: 0,
-    }
-    const ball = Bodies.circle(WIDTH / 2, HEIGHT / 2, 10, options)
-    World.add(this.engine.world, ball)
-    return ball
-  }
+  return world
+}
 
-  createPlayer(id, x, y) {
-    const options = {
-      id,
-      restitution: 1,
-      frictionAir: 0,
-      friction: 0,
-      frictionStatic: 0,
-    }
-    const body = Bodies.rectangle(x, y, 50, 5, options)
-    World.add(this.engine.world, body)
-    return body
-  }
+let lastTime
+const maxSubSteps = 2 // Max physics ticks per render frame
+const fixedDeltaTime = 1 / 60 // Physics "tick" delta time
+export const tick = () => {
+  const time = new Date().getTime()
+  let delta = lastTime ? (time - lastTime) / 1000 : 0
+  lastTime = time
+  // Make sure the time delta is not too big (can happen if user switches browser tab)
+  delta = Math.min(1 / 10, delta)
 
-  move(direction, id) {
-    const racket = Composite.get(this.engine.world, id, 'body')
-    switch (direction) {
-      case 'left':
-        Body.setVelocity(racket, { x: -5, y: 0 })
-        break
-      case 'right':
-        Body.setVelocity(racket, { x: 5, y: 0 })
-        break
-      default:
-    }
-  }
+  // Move physics bodies forward in time
+  world.step(fixedDeltaTime, delta, maxSubSteps)
 
+  // Debug purpose
+  /* ticks += 1
+  console.log('Bodies', ticks, {
+    walls: world.bodies.filter(b => b.gameType === GAME_TYPE_WALL).map(b => b.position),
+    boxes: world.bodies.filter(b => b.gameType === GAME_TYPE_BOX).map(b => b.position),
+  }) */
 }

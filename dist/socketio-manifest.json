@@ -2,207 +2,207 @@
   "name": "socketio_lib",
   "content": {
     "./node_modules/after/index.js": {
-      "id": 106,
+      "id": 154,
       "meta": {}
     },
     "./node_modules/arraybuffer.slice/index.js": {
-      "id": 107,
+      "id": 155,
       "meta": {}
     },
     "./node_modules/backo2/index.js": {
-      "id": 108,
+      "id": 156,
       "meta": {}
     },
     "./node_modules/base64-arraybuffer/lib/base64-arraybuffer.js": {
-      "id": 109,
+      "id": 157,
       "meta": {}
     },
     "./node_modules/blob/index.js": {
-      "id": 110,
+      "id": 158,
       "meta": {}
     },
     "./node_modules/component-bind/index.js": {
-      "id": 47,
+      "id": 68,
       "meta": {}
     },
     "./node_modules/component-emitter/index.js": {
-      "id": 11,
+      "id": 18,
       "meta": {}
     },
     "./node_modules/component-inherit/index.js": {
-      "id": 17,
+      "id": 26,
       "meta": {}
     },
     "./node_modules/debug/browser.js": {
-      "id": 9,
+      "id": 13,
       "meta": {}
     },
     "./node_modules/debug/debug.js": {
-      "id": 111,
+      "id": 159,
       "meta": {}
     },
     "./node_modules/engine.io-client/index.js": {
-      "id": 112,
+      "id": 160,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/index.js": {
-      "id": 113,
+      "id": 161,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/socket.js": {
-      "id": 114,
+      "id": 162,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/transport.js": {
-      "id": 27,
+      "id": 42,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/transports/index.js": {
-      "id": 49,
+      "id": 70,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/transports/polling-jsonp.js": {
-      "id": 115,
+      "id": 163,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/transports/polling-xhr.js": {
-      "id": 116,
+      "id": 164,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/transports/polling.js": {
-      "id": 50,
+      "id": 71,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/transports/websocket.js": {
-      "id": 117,
+      "id": 165,
       "meta": {}
     },
     "./node_modules/engine.io-client/lib/xmlhttprequest.js": {
-      "id": 28,
+      "id": 43,
       "meta": {}
     },
     "./node_modules/engine.io-parser/lib/browser.js": {
-      "id": 10,
+      "id": 16,
       "meta": {}
     },
     "./node_modules/engine.io-parser/lib/keys.js": {
-      "id": 118,
+      "id": 166,
       "meta": {}
     },
     "./node_modules/engine.io-parser/node_modules/has-binary/index.js": {
-      "id": 119,
+      "id": 167,
       "meta": {}
     },
     "./node_modules/has-binary/index.js": {
-      "id": 120,
+      "id": 168,
       "meta": {}
     },
     "./node_modules/has-cors/index.js": {
-      "id": 121,
+      "id": 169,
       "meta": {}
     },
     "./node_modules/indexof/index.js": {
-      "id": 51,
+      "id": 72,
       "meta": {}
     },
     "./node_modules/isarray/index.js": {
-      "id": 29,
-      "meta": {}
-    },
-    "./node_modules/json3/lib/json3.js": {
-      "id": 122,
-      "meta": {}
-    },
-    "./node_modules/ms/index.js": {
-      "id": 123,
-      "meta": {}
-    },
-    "./node_modules/parsejson/index.js": {
-      "id": 125,
-      "meta": {}
-    },
-    "./node_modules/parseqs/index.js": {
-      "id": 30,
-      "meta": {}
-    },
-    "./node_modules/parseuri/index.js": {
-      "id": 53,
-      "meta": {}
-    },
-    "./node_modules/process/browser.js": {
       "id": 44,
       "meta": {}
     },
-    "./node_modules/socket.io-client/lib/index.js": {
-      "id": 105,
+    "./node_modules/json3/lib/json3.js": {
+      "id": 170,
       "meta": {}
     },
-    "./node_modules/socket.io-client/lib/manager.js": {
+    "./node_modules/ms/index.js": {
+      "id": 171,
+      "meta": {}
+    },
+    "./node_modules/parsejson/index.js": {
+      "id": 183,
+      "meta": {}
+    },
+    "./node_modules/parseqs/index.js": {
+      "id": 51,
+      "meta": {}
+    },
+    "./node_modules/parseuri/index.js": {
       "id": 98,
       "meta": {}
     },
+    "./node_modules/process/browser.js": {
+      "id": 65,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/index.js": {
+      "id": 153,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/manager.js": {
+      "id": 146,
+      "meta": {}
+    },
     "./node_modules/socket.io-client/lib/on.js": {
-      "id": 99,
+      "id": 147,
       "meta": {}
     },
     "./node_modules/socket.io-client/lib/socket.js": {
-      "id": 100,
+      "id": 148,
       "meta": {}
     },
     "./node_modules/socket.io-client/lib/url.js": {
-      "id": 217,
+      "id": 277,
       "meta": {}
     },
     "./node_modules/socket.io-parser/binary.js": {
-      "id": 218,
+      "id": 278,
       "meta": {}
     },
     "./node_modules/socket.io-parser/index.js": {
-      "id": 46,
+      "id": 67,
       "meta": {}
     },
     "./node_modules/socket.io-parser/is-buffer.js": {
-      "id": 101,
+      "id": 149,
       "meta": {}
     },
     "./node_modules/socket.io-parser/node_modules/component-emitter/index.js": {
-      "id": 219,
+      "id": 279,
       "meta": {}
     },
     "./node_modules/socket.io-parser/node_modules/debug/browser.js": {
-      "id": 220,
+      "id": 280,
       "meta": {}
     },
     "./node_modules/socket.io-parser/node_modules/debug/debug.js": {
-      "id": 221,
+      "id": 281,
       "meta": {}
     },
     "./node_modules/socket.io-parser/node_modules/ms/index.js": {
-      "id": 222,
+      "id": 282,
       "meta": {}
     },
     "./node_modules/to-array/index.js": {
-      "id": 223,
+      "id": 283,
       "meta": {}
     },
     "./node_modules/webpack/buildin/amd-options.js": {
-      "id": 226,
+      "id": 286,
       "meta": {}
     },
     "./node_modules/webpack/buildin/global.js": {
-      "id": 3,
+      "id": 4,
       "meta": {}
     },
     "./node_modules/webpack/buildin/module.js": {
-      "id": 25,
+      "id": 40,
       "meta": {}
     },
     "./node_modules/wtf-8/wtf-8.js": {
-      "id": 227,
+      "id": 287,
       "meta": {}
     },
     "./node_modules/yeast/index.js": {
-      "id": 102,
+      "id": 150,
       "meta": {}
     }
   }

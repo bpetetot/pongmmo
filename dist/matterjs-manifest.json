@@ -1,9 +1,0 @@
-{
-  "name": "matterjs_lib",
-  "content": {
-    "./node_modules/matter-js/build/matter.js": {
-      "id": 103,
-      "meta": {}
-    }
-  }
-}
