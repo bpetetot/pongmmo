@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import { SET_PLAYERS, UPDATE_PLAYER } from './events'
-import { WIDTH, HEIGHT } from './config'
+import { WIDTH, HEIGHT, MODE_DEV } from './config'
 import * as Renderer from './renderer'
 import * as Physics from './physic'
 import { convert } from './renderer/convertor'
@@ -55,6 +55,8 @@ document.addEventListener('keydown', (event) => {
 function loop() {
   requestAnimationFrame(loop)
 
+  if (MODE_DEV) Renderer.stats.begin()
+
   Physics.tick()
 
   boxes.forEach((box) => {
@@ -68,6 +70,8 @@ function loop() {
 
   // Render scene
   Renderer.render()
+
+  if (MODE_DEV) Renderer.stats.end()
 }
 
 loop()
