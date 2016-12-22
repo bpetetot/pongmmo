@@ -66,7 +66,13 @@ module.exports = {
   plugins: getPlugins([]),
   module: {
     rules: [
-      { test: /\.jsx?$/, use: ['babel-loader'] },
+      {
+        test: /\.jsx?$/,
+        use: [{
+          loader: 'babel-loader',
+          query: { plugins: ['transform-inline-environment-variables'] },
+        }],
+      },
       { test: /\.json$/, use: ['json-loader'] },
     ],
   },

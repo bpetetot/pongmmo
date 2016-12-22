@@ -1,0 +1,1 @@
+export const STATE_START_SERVER = 'START_SERVER'

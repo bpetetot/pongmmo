@@ -62,8 +62,7 @@
     "plugins": [
       "transform-class-properties",
       "transform-object-rest-spread",
-      "transform-async-to-generator",
-      "transform-inline-environment-variables"
+      "transform-async-to-generator"
     ],
     "presets": [
       "es2017",

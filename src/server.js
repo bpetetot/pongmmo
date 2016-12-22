@@ -1,10 +1,13 @@
 import 'babel-polyfill'
 import socketIO from 'socket.io'
-import { player } from './db'
+import { SERVER_PORT } from './config'
+import db, { player } from './db'
 import { SET_PLAYERS, UPDATE_PLAYER, CONNECTION } from './events'
 import { init, addBodies, tick, createBox } from './physic'
+import logger from './logger'
+import { STATE_START_SERVER } from './constants'
 
-const io = socketIO(9000)
+const io = socketIO(SERVER_PORT)
 const NAMES = ['Pierre', 'Charles', 'Yvonne', 'Jules', 'Maxime', 'Florent', 'Angéline', 'Julie']
 const rand = (min, max) => Math.floor((Math.random() * max) + min)
 const randPos = (min, max) => (Math.random() * (max - min)) + min
@@ -16,7 +19,11 @@ const physicLoop = async () => {
   tick()
 }
 
-const run = () => {
+const run = async () => {
+  logger.info(`Server listen on port ${SERVER_PORT}...`)
+  logger.info(`Entering in ${STATE_START_SERVER} state...`)
+  await db()
+
   init()
   setInterval(physicLoop, (1 / 60) * 1000)
 

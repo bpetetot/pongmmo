@@ -16,6 +16,8 @@ services:
     environment:
       - DB_HOST=db
       - LOG_LEVEL=info
+    links:
+      - db
 
   db:
     image: rethinkdb

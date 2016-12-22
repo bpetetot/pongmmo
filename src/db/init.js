@@ -8,7 +8,7 @@ const DB_OPTIONS = {
   database: process.env.DB_DATABASE || DEFAULT_OPTIONS.DB.DATABASE,
 }
 
-logger.log('"options": %j', { db: DB_OPTIONS })
+logger.debug('"options": %j', { db: DB_OPTIONS })
 
 let initiated
 let conn
