@@ -1,12 +1,7 @@
 import rethink from 'rethinkdb'
 import logger from '../logger'
-import { DEFAULT_OPTIONS, TABLES } from './constants'
-
-const DB_OPTIONS = {
-  host: process.env.DB_HOST || DEFAULT_OPTIONS.DB.HOST,
-  port: process.env.DB_PORT || DEFAULT_OPTIONS.DB.PORT,
-  database: process.env.DB_DATABASE || DEFAULT_OPTIONS.DB.DATABASE,
-}
+import { DB_OPTIONS } from '../config'
+import { TABLES } from './tables'
 
 logger.debug('"options": %j', { db: DB_OPTIONS })
 

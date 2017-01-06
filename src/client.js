@@ -1,77 +1,64 @@
 import io from 'socket.io-client'
-import { SET_PLAYERS, UPDATE_PLAYER } from './events'
+
 import { WIDTH, HEIGHT, MODE_DEV } from './config'
-import * as Renderer from './renderer'
-import * as Physics from './physic'
-import { convert } from './renderer/convertor'
+import { GAME_WAITING, GAME_STARTED } from './constants'
+import * as Renderer from './gui/renderer'
+import * as events from './events'
+import { lobby, init, updateBodies } from './gui'
 
 const socket = io()
 
-let boxes = []
+let gameState = GAME_WAITING
+let playerId
+let players
 
-// Initialize
-const physicWold = Physics.init()
-Renderer.init({
-  view: 'main',
-  width: WIDTH,
-  height: HEIGHT,
+// when server pings client
+socket.on(events.SERVER_PING, time => socket.emit(events.CLIENT_PONG, time))
+
+// when client joins server
+socket.on(events.SERVER_SET_PLAYER, (id) => {
+  playerId = id
 })
 
-// Prepare map
-Renderer.add(
-  ...Renderer.renderWalls(
-    physicWold.bodies.filter(b => b.gameType === Physics.GAME_TYPE_WALL)
-  )
-)
-
-socket.on(SET_PLAYERS, (data) => {
-  boxes = data.map((player) => {
-    const box = Physics.createBox(player.x, player.y)
-
-    Physics.addBodies(box)
-    return Renderer.renderBox(box)
-  })
-
-  Renderer.add(...boxes)
+// when players updated
+socket.on(events.SERVER_ADD_PLAYERS, (connectedPlayers) => {
+  players = connectedPlayers
 })
 
-socket.on(UPDATE_PLAYER, () => {
-  // console.log(data)
-  // scene.onSetPlayer(data.id, data.x, data.y)
-})
-
-document.addEventListener('keydown', (event) => {
-  const keyName = event.key
-  // const player = players[currentPlayerId]
-  if (keyName === 'ArrowLeft') {
-    // socket.emit(UPDATE_PLAYER, { ...player, x: player.x, y: player.y })
-  } else if (keyName === 'ArrowRight') {
-    // socket.emit(UPDATE_PLAYER, { ...player, x: player.x, y: player.y })
+// when game state change
+socket.on(events.SERVER_SET_STATE, (state) => {
+  gameState = state
+  if (gameState === GAME_STARTED) {
+    init(socket, playerId, players)
   }
-}, false)
-
+})
 
 // Animation loop
-function loop() {
+const loop = () => {
   requestAnimationFrame(loop)
 
   if (MODE_DEV) Renderer.stats.begin()
 
-  Physics.tick()
+  if (gameState === GAME_STARTED) updateBodies()
 
-  boxes.forEach((box) => {
-    const { graphics, body } = box
-    const { x, y } = convert(body)
-
-    graphics.position.x = x
-    graphics.position.y = y
-    graphics.rotation = body.interpolatedAngle
-  })
-
-  // Render scene
   Renderer.render()
 
   if (MODE_DEV) Renderer.stats.end()
 }
 
-loop()
+const run = () => {
+  // initialize renderer
+  Renderer.init({
+    view: document.getElementById('main'),
+    width: WIDTH,
+    height: HEIGHT,
+  })
+
+  // launch animation loop
+  loop()
+
+  // display lobby
+  lobby(socket)
+}
+
+run()

@@ -16,7 +16,10 @@ module.exports = {
     filename: 'server.js',
   },
   resolve: {
-    modules: ['./src'],
+    modules: [
+      'node_modules',
+      './src',
+    ],
     extensions: ['.js'],
   },
   module: {

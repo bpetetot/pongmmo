@@ -1,5 +1,6 @@
 import p2 from 'p2'
-// import { GAME_TYPE_WALL, GAME_TYPE_BOX } from './entities'
+import pick from 'lodash/pick'
+
 import { createWalls } from './entities/walls'
 import { WIDTH, HEIGHT } from '../config'
 
@@ -15,7 +16,7 @@ export const addBodies = (...bodies) => {
 
 export const init = () => {
   world = new p2.World({
-    gravity: [0, 10],
+    gravity: [0, 0],
   })
 
   world.islandSplit = true
@@ -31,7 +32,7 @@ export const init = () => {
 
 let lastTime
 const maxSubSteps = 2 // Max physics ticks per render frame
-const fixedDeltaTime = 1 / 60 // Physics "tick" delta time
+const fixedDeltaTime = 1 / 120 // Physics "tick" delta time
 export const tick = () => {
   const time = new Date().getTime()
   let delta = lastTime ? (time - lastTime) / 1000 : 0
@@ -48,4 +49,8 @@ export const tick = () => {
     walls: world.bodies.filter(b => b.gameType === GAME_TYPE_WALL).map(b => b.position),
     boxes: world.bodies.filter(b => b.gameType === GAME_TYPE_BOX).map(b => b.position),
   }) */
+}
+
+export const pickBodyProps = (body) => {
+  return pick(body, ['position', 'velocity', 'angle', 'angularForce', 'angularVelocity'])
 }

@@ -1,0 +1,2 @@
+export const CLIENT_CONNECTED = 'CLIENT_CONNECTED'
+export const CLIENT_IDLE = 'CLIENT_IDLE'

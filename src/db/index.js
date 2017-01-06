@@ -1,2 +1,2 @@
 export default from './init'
-export player from './player'
+export * from './tables'

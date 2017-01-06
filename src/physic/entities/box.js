@@ -1,5 +1,6 @@
 import p2 from 'p2'
 import { GAME_TYPE_BOX } from './constants'
+import { addBodies } from '../engine'
 
 const SIZE = 0.3
 
@@ -9,6 +10,8 @@ export const createBox = (x, y) => {
 
   body.addShape(shape)
   body.gameType = GAME_TYPE_BOX
+
+  addBodies(body)
 
   return body
 }

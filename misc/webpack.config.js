@@ -27,7 +27,6 @@ function getPlugins(plugins) {
   plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: socketio }))
   plugins.push(new webpack.DllReferencePlugin({ context: '.', manifest: p2 }))
 
-
   plugins.push(new HtmlWebpackPlugin({ hash: true, template: require.resolve('./index.html') }))
   plugins.push(new AddAssetHtmlPlugin({ filepath: require.resolve('../dist/pixijs.bundle.js'), hash: true, includeSourcemap: false }))
   plugins.push(new AddAssetHtmlPlugin({ filepath: require.resolve('../dist/socketio.bundle.js'), hash: true, includeSourcemap: false }))
@@ -45,6 +44,7 @@ module.exports = {
         ws: true,
       },
     },
+    stats: 'minimal',
   },
   entry: {
     pongmmo: getEntrySources([
@@ -67,13 +67,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js?$/,
         use: [{
           loader: 'babel-loader',
           query: { plugins: ['transform-inline-environment-variables'] },
         }],
       },
-      { test: /\.json$/, use: ['json-loader'] },
     ],
   },
 }
