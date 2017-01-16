@@ -1,7 +1,7 @@
 import p2 from 'p2'
 import find from 'lodash/find'
 
-import { SERVER_SYNCHRONIZE, CLIENT_MOVE } from '../events'
+import { SERVER_MOVE, CLIENT_MOVE } from '../events'
 import * as physic from '../physic'
 import * as Renderer from './renderer'
 
@@ -9,6 +9,7 @@ let socket
 let physicWorld
 const players = []
 let currentPlayerId
+let step
 
 // Update physic and render it
 export const updateBodies = () => {
@@ -44,6 +45,7 @@ const createPlayers = (newPlayers) => {
 
 // Initialize a game
 export const init = (socketio, playerId, newPlayers) => {
+  step = 0
   socket = socketio
   currentPlayerId = playerId
   physicWorld = physic.init()
@@ -51,13 +53,16 @@ export const init = (socketio, playerId, newPlayers) => {
   createMap()
   createPlayers(newPlayers)
 
-  // Basic synchro with server
-  socket.on(SERVER_SYNCHRONIZE, (serverBodies) => {
-    players.forEach((player) => {
-      const { id, body } = player
-      const serverBody = find(serverBodies, { id })
-      Object.assign(body, physic.pickBodyProps(serverBody))
-    })
+  socket.on(SERVER_MOVE, (event) => {
+    const serverPlayers = event.players
+
+    players
+      .map(p => Object.assign(
+        p.body,
+        physic.pickBodyProps(
+          serverPlayers.find(s => s.id === p.id).body
+        )
+      ))
   })
 }
 
@@ -80,6 +85,7 @@ document.addEventListener('keydown', (event) => {
   if (velocity) {
     const { body } = find(players, { id: currentPlayerId })
     p2.vec2.add(body.velocity, body.velocity, velocity)
-    socket.emit(CLIENT_MOVE, { id: currentPlayerId, velocity })
+    step += 1
+    socket.emit(CLIENT_MOVE, { id: currentPlayerId, velocity, step })
   }
 }, false)

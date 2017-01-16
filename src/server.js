@@ -16,6 +16,7 @@ const io = socketIO(SERVER_PORT)
 let allPlayers = []
 let physicInterval
 let synchroInterval
+let toSynchronize = []
 
 // Initialize Server
 const initialize = async () => {
@@ -70,12 +71,22 @@ const run = () => {
     socket.on(events.CLIENT_START_GAME, async () => {
       // Re-init values if restarted
       allPlayers = []
+      toSynchronize = []
       if (physicInterval) clearInterval(physicInterval)
       if (synchroInterval) clearInterval(synchroInterval)
 
       // Initialize physic server
       physic.init()
-      physicInterval = setInterval(physic.tick, (1 / 60) * 1000)
+      physicInterval = setInterval(() => {
+        physic.tick()
+        toSynchronize.forEach((event) => {
+          io.emit(events.SERVER_MOVE, {
+            event,
+            players: allPlayers.map(p => ({ id: p.id, body: physic.pickBodyProps(p.body) })),
+          })
+        })
+        toSynchronize = []
+      }, (1 / 60) * 1000)
 
       // Add players to physic engine
       const playersConnected = await players.getAll()
@@ -83,20 +94,16 @@ const run = () => {
 
       // Set server state to 'STARTED'
       setGameState(GAME_STARTED)
-
-      // Synchronize clients with server physics
-      synchroInterval = setInterval(() => {
-        io.emit(events.SERVER_SYNCHRONIZE, allPlayers.map(p => ({
-          id: p.id,
-          ...physic.pickBodyProps(p.body),
-        })))
-      }, 200)
     })
 
     // When client moves a player
-    socket.on(events.CLIENT_MOVE, async ({ id, velocity }) => {
+    socket.on(events.CLIENT_MOVE, async ({ id, velocity, step }) => {
+      // Store event to resynchronize
+      toSynchronize.push({ id, step })
+
       const { body } = find(allPlayers, { id })
       p2.vec2.add(body.velocity, body.velocity, velocity)
+
       // store velocity
       const p = await players.get(socket.id)
       players.update({ ...p, velocity: body.velocity })
