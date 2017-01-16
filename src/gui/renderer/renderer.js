@@ -1,10 +1,11 @@
 import { autoDetectRenderer, Container } from 'pixi.js'
 import Stats from 'stats.js'
-import { convert } from './convertor'
+import { convert } from '../../utils'
 import { MODE_DEV, RATIO } from '../../config'
 
 let renderer
 let container
+export const screen2worldRatio = [1, 1]
 export const stats = new Stats()
 
 // Init pixi.js
@@ -13,7 +14,7 @@ export const init = ({ view, width, height }) => {
 
   // Create the renderer
   renderer = autoDetectRenderer(w, h, {
-    backgroundColor: 0x65C25D,
+    backgroundColor: 0x000000,
     antialias: true,
     resolution: window.devicePixelRatio || 1,
     autoResize: true,
@@ -32,7 +33,7 @@ export const init = ({ view, width, height }) => {
   // Configure stats view to the body
   if (MODE_DEV) {
     stats.showPanel(0)
-    document.body.appendChild(stats.dom)
+    // document.body.appendChild(stats.dom)
   }
 
   // Update renderer with on resize window
@@ -48,6 +49,10 @@ export const init = ({ view, width, height }) => {
     }
     renderer.view.style.width = `${widthRenderer}px`
     renderer.view.style.height = `${heightRenderer}px`
+
+    // update the screen to world ratio
+    screen2worldRatio[0] = w / widthRenderer
+    screen2worldRatio[1] = h / heightRenderer
   }
 
   window.onresize()

@@ -1,5 +1,5 @@
 import { Graphics } from 'pixi.js'
-import { convert } from '../convertor'
+import { convert } from '../../../utils'
 
 export const renderBox = (body, color) => {
   const { x, y, w, h } = convert(body)

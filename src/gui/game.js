@@ -2,6 +2,7 @@ import p2 from 'p2'
 import find from 'lodash/find'
 
 import { SERVER_MOVE, CLIENT_MOVE } from '../events'
+import { convert } from '../utils'
 import * as physic from '../physic'
 import * as Renderer from './renderer'
 
@@ -17,7 +18,7 @@ export const updateBodies = () => {
   // Convert physic bodies to rendered items
   players.forEach((box) => {
     const { graphics, body } = box
-    const { x, y } = Renderer.convert(body)
+    const { x, y } = convert(body)
     graphics.position.x = x
     graphics.position.y = y
     graphics.rotation = body.interpolatedAngle
@@ -64,28 +65,28 @@ export const init = (socketio, playerId, newPlayers) => {
         )
       ))
   })
+
+  // Key moves
+  document.addEventListener('keydown', (event) => {
+    event.preventDefault() // avoid window scrolling
+
+    const { key } = event
+    let velocity
+    if (key === 'ArrowLeft') {
+      velocity = [-2, 0]
+    } else if (key === 'ArrowRight') {
+      velocity = [2, 0]
+    } else if (key === 'ArrowDown') {
+      velocity = [0, 2]
+    } else if (key === 'ArrowUp') {
+      velocity = [0, -2]
+    }
+
+    if (velocity) {
+      const { body } = find(players, { id: currentPlayerId })
+      p2.vec2.add(body.velocity, body.velocity, velocity)
+      step += 1
+      socket.emit(CLIENT_MOVE, { id: currentPlayerId, velocity, step })
+    }
+  }, false)
 }
-
-// Key moves
-document.addEventListener('keydown', (event) => {
-  event.preventDefault() // avoid window scrolling
-
-  const { key } = event
-  let velocity
-  if (key === 'ArrowLeft') {
-    velocity = [-2, 0]
-  } else if (key === 'ArrowRight') {
-    velocity = [2, 0]
-  } else if (key === 'ArrowDown') {
-    velocity = [0, 2]
-  } else if (key === 'ArrowUp') {
-    velocity = [0, -2]
-  }
-
-  if (velocity) {
-    const { body } = find(players, { id: currentPlayerId })
-    p2.vec2.add(body.velocity, body.velocity, velocity)
-    step += 1
-    socket.emit(CLIENT_MOVE, { id: currentPlayerId, velocity, step })
-  }
-}, false)

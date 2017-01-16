@@ -1,5 +1,5 @@
 import { Graphics } from 'pixi.js'
-import { convert } from '../convertor'
+import { convert } from '../../../utils'
 
 export const renderWall = (body) => {
   const { x, y, w, h } = convert(body)

@@ -92,10 +92,7 @@
       "node": true
     },
     "rules": {
-      "semi": [
-        2,
-        "never"
-      ],
+      "semi": [ 2, "never" ],
       "arrow-body-style": 0,
       "import/no-named-as-default": 0,
       "import/prefer-default-export": 0,
@@ -103,6 +100,7 @@
       "generator-star-spacing": 0,
       "babel/generator-star-spacing": 1,
       "react/require-extension": 0,
+      "no-param-reassign": [ 2, { "props": false } ],
       "import/extensions": 1
     }
   }

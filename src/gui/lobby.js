@@ -1,74 +1,76 @@
-import { Text, Graphics } from 'pixi.js'
-import { add } from './renderer'
+import { Container } from 'pixi.js'
+
+import Text from './components/Text'
+import Button from './components/Button'
+import VerticalLayout from './components/VerticalLayout'
+import { scrollable } from './components/Scrollable'
+import TextInput from './components/TextInput'
+
+import { WIDTH } from '../config'
+import { CLIENT_CONNECTED, CLIENT_IDLE } from '../constants'
 import * as events from '../events'
-import { CLIENT_CONNECTED, CLIENT_IDLE, GAME_WAITING } from '../constants'
+import { convert } from '../utils'
 
-const textStyle = { fontSize: 15 }
-const lobbyStateText = new Text('', textStyle)
-const clientStateText = new Text('', textStyle)
-const actionButton = new Graphics()
-let playersText = []
+// UI elements
+const [width] = convert([WIDTH])
+const layout = new VerticalLayout({ width })
+const container = new Container()
+const titleText = new Text('Pong MMO', { fontSize: 50, fill: 0xffffff })
+const userInput = new TextInput('Ian Solo')
+const button = new Button('JOIN GAME')
+const playersLayout = scrollable(new VerticalLayout({ width: 400, align: 'LEFT' }), 400)
 
-let lobbyState = GAME_WAITING
-let clientState = CLIENT_IDLE
-
-const createButton = (onClick) => {
-  actionButton.beginFill(0xFF3300)
-  actionButton.lineStyle(4, 0xffd900, 1)
-  actionButton.drawRect(30, 540, 100, 30)
-  actionButton.endFill()
-  actionButton.interactive = true
-  actionButton.buttonMode = true
-  actionButton.click = onClick
-  add(actionButton)
+// UI State
+const uiState = {
+  client: CLIENT_IDLE,
 }
 
-export const lobby = (socket) => {
-  // when game state change
-  socket.on(events.SERVER_SET_STATE, (state) => {
-    lobbyState = state
-    lobbyStateText.text = `Server : ${state}`
-  })
+// Listeners
+const onPlayerJoin = () => {
+  uiState.client = CLIENT_CONNECTED
+  userInput.visible = false
+  button.text('START GAME')
+  layout.update()
+}
 
-  // when client joins server
-  socket.on(events.SERVER_SET_PLAYER, (id) => {
-    clientState = CLIENT_CONNECTED
-    clientStateText.text = `Client : ${id}`
-  })
+const onUpdatePlayers = (players) => {
+  playersLayout.clear()
+  playersLayout.add(players.map(p => new Text(`${p.name} (${p.latency}ms)`)))
+  layout.update()
+}
 
-  // when players updated
-  socket.on(events.SERVER_ADD_PLAYERS, (players) => {
-    playersText.forEach(t => t.destroy())
-    playersText = []
-    let yPosition = 100
-    players.forEach((p) => {
-      const playerText = new Text(`${p.name} (${p.latency}ms)`, textStyle)
-      playerText.x = 30
-      playerText.y = yPosition
-      yPosition += 30
-      playersText.push(playerText)
-    })
-    add(...playersText)
-  })
+// Lobby constructor
+export const create = (socket) => {
+  // register socket listeners
+  socket.on(events.SERVER_SET_PLAYER, onPlayerJoin)
+  socket.on(events.SERVER_ADD_PLAYERS, onUpdatePlayers)
 
-  // lobby state
-  lobbyStateText.x = 30
-  lobbyStateText.y = 30
-  add(lobbyStateText)
+  // initialize UI
+  layout.add(titleText)
+  layout.add(userInput)
+  layout.add(button)
+  layout.add(playersLayout)
 
-  // client state
-  clientStateText.x = 30
-  clientStateText.y = 60
-  add(clientStateText)
+  layout.attach(container)
 
-  // add button
-  createButton(() => {
-    if (lobbyState === GAME_WAITING && clientState === CLIENT_IDLE) {
-      // join server
-      socket.emit(events.CLIENT_PLAYER_CONNECT, { name: 'Ian Solo' })
-    } else if (lobbyState === GAME_WAITING && clientState === CLIENT_CONNECTED) {
-      // start game
+  button.onClick(() => {
+    const username = userInput.text
+    if (uiState.client === CLIENT_IDLE && username && username.trim() !== '') {
+      socket.emit(events.CLIENT_PLAYER_CONNECT, { name: username })
+    } else if (uiState.client === CLIENT_CONNECTED) {
       socket.emit(events.CLIENT_START_GAME)
     }
   })
+
+  return container
+}
+
+// Lobby destructor
+export const destroy = (socket) => {
+  // unregister socket listeners
+  socket.off(events.SERVER_SET_PLAYER, onPlayerJoin)
+  socket.off(events.SERVER_ADD_PLAYERS, onUpdatePlayers)
+
+  // destroy container
+  container.destroy()
 }

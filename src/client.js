@@ -4,7 +4,8 @@ import { WIDTH, HEIGHT, MODE_DEV } from './config'
 import { GAME_WAITING, GAME_STARTED } from './constants'
 import * as Renderer from './gui/renderer'
 import * as events from './events'
-import { lobby, init, updateBodies } from './gui'
+import * as Lobby from './gui/lobby'
+import { init, updateBodies } from './gui'
 
 const socket = io()
 
@@ -29,7 +30,10 @@ socket.on(events.SERVER_ADD_PLAYERS, (connectedPlayers) => {
 socket.on(events.SERVER_SET_STATE, (state) => {
   gameState = state
   if (gameState === GAME_STARTED) {
+    Lobby.destroy(socket)
     init(socket, playerId, players)
+  } else if (gameState === GAME_WAITING) {
+    Renderer.add(Lobby.create(socket))
   }
 })
 
@@ -56,9 +60,6 @@ const run = () => {
 
   // launch animation loop
   loop()
-
-  // display lobby
-  lobby(socket)
 }
 
 run()
