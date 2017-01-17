@@ -1,0 +1,11 @@
+from zenika/alpine-node
+
+EXPOSE 3000
+
+COPY package.json /usr/src/app
+RUN npm install --production
+
+RUN mkdir /usr/src/app/dist
+COPY dist/server.js /usr/src/app/dist/
+
+CMD ["node", "dist/server"]

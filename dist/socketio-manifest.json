@@ -1,0 +1,209 @@
+{
+  "name": "socketio_lib",
+  "content": {
+    "./node_modules/after/index.js": {
+      "id": 154,
+      "meta": {}
+    },
+    "./node_modules/arraybuffer.slice/index.js": {
+      "id": 155,
+      "meta": {}
+    },
+    "./node_modules/backo2/index.js": {
+      "id": 156,
+      "meta": {}
+    },
+    "./node_modules/base64-arraybuffer/lib/base64-arraybuffer.js": {
+      "id": 157,
+      "meta": {}
+    },
+    "./node_modules/blob/index.js": {
+      "id": 158,
+      "meta": {}
+    },
+    "./node_modules/component-bind/index.js": {
+      "id": 68,
+      "meta": {}
+    },
+    "./node_modules/component-emitter/index.js": {
+      "id": 18,
+      "meta": {}
+    },
+    "./node_modules/component-inherit/index.js": {
+      "id": 26,
+      "meta": {}
+    },
+    "./node_modules/debug/browser.js": {
+      "id": 13,
+      "meta": {}
+    },
+    "./node_modules/debug/debug.js": {
+      "id": 159,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/index.js": {
+      "id": 160,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/index.js": {
+      "id": 161,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/socket.js": {
+      "id": 162,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/transport.js": {
+      "id": 42,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/transports/index.js": {
+      "id": 70,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/transports/polling-jsonp.js": {
+      "id": 163,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/transports/polling-xhr.js": {
+      "id": 164,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/transports/polling.js": {
+      "id": 71,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/transports/websocket.js": {
+      "id": 165,
+      "meta": {}
+    },
+    "./node_modules/engine.io-client/lib/xmlhttprequest.js": {
+      "id": 43,
+      "meta": {}
+    },
+    "./node_modules/engine.io-parser/lib/browser.js": {
+      "id": 16,
+      "meta": {}
+    },
+    "./node_modules/engine.io-parser/lib/keys.js": {
+      "id": 166,
+      "meta": {}
+    },
+    "./node_modules/engine.io-parser/node_modules/has-binary/index.js": {
+      "id": 167,
+      "meta": {}
+    },
+    "./node_modules/has-binary/index.js": {
+      "id": 168,
+      "meta": {}
+    },
+    "./node_modules/has-cors/index.js": {
+      "id": 169,
+      "meta": {}
+    },
+    "./node_modules/indexof/index.js": {
+      "id": 72,
+      "meta": {}
+    },
+    "./node_modules/isarray/index.js": {
+      "id": 44,
+      "meta": {}
+    },
+    "./node_modules/json3/lib/json3.js": {
+      "id": 170,
+      "meta": {}
+    },
+    "./node_modules/ms/index.js": {
+      "id": 171,
+      "meta": {}
+    },
+    "./node_modules/parsejson/index.js": {
+      "id": 183,
+      "meta": {}
+    },
+    "./node_modules/parseqs/index.js": {
+      "id": 51,
+      "meta": {}
+    },
+    "./node_modules/parseuri/index.js": {
+      "id": 98,
+      "meta": {}
+    },
+    "./node_modules/process/browser.js": {
+      "id": 65,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/index.js": {
+      "id": 153,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/manager.js": {
+      "id": 146,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/on.js": {
+      "id": 147,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/socket.js": {
+      "id": 148,
+      "meta": {}
+    },
+    "./node_modules/socket.io-client/lib/url.js": {
+      "id": 277,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/binary.js": {
+      "id": 278,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/index.js": {
+      "id": 67,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/is-buffer.js": {
+      "id": 149,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/node_modules/component-emitter/index.js": {
+      "id": 279,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/node_modules/debug/browser.js": {
+      "id": 280,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/node_modules/debug/debug.js": {
+      "id": 281,
+      "meta": {}
+    },
+    "./node_modules/socket.io-parser/node_modules/ms/index.js": {
+      "id": 282,
+      "meta": {}
+    },
+    "./node_modules/to-array/index.js": {
+      "id": 283,
+      "meta": {}
+    },
+    "./node_modules/webpack/buildin/amd-options.js": {
+      "id": 286,
+      "meta": {}
+    },
+    "./node_modules/webpack/buildin/global.js": {
+      "id": 4,
+      "meta": {}
+    },
+    "./node_modules/webpack/buildin/module.js": {
+      "id": 40,
+      "meta": {}
+    },
+    "./node_modules/wtf-8/wtf-8.js": {
+      "id": 287,
+      "meta": {}
+    },
+    "./node_modules/yeast/index.js": {
+      "id": 150,
+      "meta": {}
+    }
+  }
+}
