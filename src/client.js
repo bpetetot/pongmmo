@@ -1,5 +1,9 @@
-import { log } from './utils'
-import { changeState, Lobby } from './states'
+import io from 'socket.io-client'
+import { log } from 'utils'
+
+import LobbyClient from './states/lobby/LobbyClient'
+
+const socket = io()
 
 let state
 
@@ -10,8 +14,12 @@ const loop = () => {
 
 const run = () => {
   log.debug('Start client')
-  state = changeState(state, Lobby.NAME)
+
+  state = new LobbyClient(socket)
+  state.create()
+
   loop()
+
   log.debug('Client started')
 }
 
