@@ -1,43 +1,34 @@
-import socketIO from 'socket.io'
-import _ from 'lodash'
-
 import { SERVER_PORT } from 'global'
-import { log } from 'utils'
-
+import _ from 'lodash'
+import socketIO from 'socket.io'
+import factory from './states/factory'
 import LobbyServer from './states/lobby/LobbyServer'
 
-export const io = socketIO(SERVER_PORT)
-const sockets = []
+const io = socketIO(SERVER_PORT)
 
-let state
+const loop = step => () => setInterval(step, (1 / 60) * 1000)
 
-const loop = () => setInterval(() => {
-  if (state) state.loop()
-}, (1 / 60) * 1000)
+const statesFactories = {
+  lobby: LobbyServer,
+}
 
-const run = () => {
-  log.debug('Start server...')
-
-  state = new LobbyServer(sockets)
-  state.create()
-
+const init = (f) => {
   // when a client is connected
   io.on('connection', (socket) => {
-    log.debug(`Client connected : ${socket.id}`)
-    sockets.push(socket)
-    if (state) state.connect(socket)
+    f.sockets.push(socket)
+    f.state.connect(socket)
+    console.log(`connected ${socket.id}`)
 
     // when a client is disconnected
     socket.on('disconnect', () => {
-      log.debug(`Client disconnected : ${socket.id}`)
-      if (state) state.disconnect(socket)
-      _.remove(sockets, s => s.id === socket.id)
+      _.remove(f.sockets, s => s.id === socket.id)
+      f.state.disconnect(socket)
+      console.log(`disconnect ${socket.id}`)
     })
   })
-
-  loop()
-
-  log.debug('Server started')
 }
 
-run()
+factory.loopImplem = loop
+factory.statesFactories = statesFactories
+factory.broadcast = (name, data) => io.emit(name, data)
+factory.run(init)

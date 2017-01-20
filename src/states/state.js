@@ -1,9 +1,16 @@
 import { log } from 'utils'
 
 class State {
-
   constructor(name) {
     this.name = name
+  }
+
+  connect() {
+    log.debug(`State '${this.name}' - connect`)
+  }
+
+  disconnect() {
+    log.debug(`State '${this.name}' - disconnect`)
   }
 
   create() {

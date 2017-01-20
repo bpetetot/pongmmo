@@ -1,26 +1,21 @@
 import io from 'socket.io-client'
-import { log } from 'utils'
-
+import factory from './states/factory'
 import LobbyClient from './states/lobby/LobbyClient'
 
-const socket = io()
+const statesFactories = {
+  lobby: LobbyClient,
+}
 
-let state
-
-const loop = () => {
+const loop = step => () => {
   requestAnimationFrame(loop)
-  if (state) state.loop()
+  step()
 }
 
-const run = () => {
-  log.debug('Start client')
-
-  state = new LobbyClient(socket)
-  state.create()
-
-  loop()
-
-  log.debug('Client started')
+const init = (f) => {
+  const socket = io()
+  f.sockets.push(socket)
 }
 
-run()
+factory.loopImplem = loop
+factory.statesFactories = statesFactories
+factory.run(init)
