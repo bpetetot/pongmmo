@@ -3,6 +3,7 @@ import _ from 'lodash'
 import socketIO from 'socket.io'
 import factory from './states/factory'
 import LobbyServer from './states/lobby/LobbyServer'
+import IngameServer from './states/ingame/IngameServer'
 
 const io = socketIO(SERVER_PORT)
 
@@ -10,6 +11,7 @@ const loop = step => () => setInterval(step, (1 / 60) * 1000)
 
 const statesFactories = {
   lobby: LobbyServer,
+  ingame: IngameServer,
 }
 
 const init = (f) => {

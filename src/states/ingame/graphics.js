@@ -9,19 +9,15 @@ export default class {
 
   create() {
     const titleEl = document.createElement('h1')
-    titleEl.appendChild(document.createTextNode('Lobby'))
+    const title = document.createTextNode('In game')
+    titleEl.appendChild(title)
     this.view.appendChild(titleEl)
 
     this.myButton = document.createElement('input')
     this.myButton.type = 'button'
-    this.myButton.value = 'join'
-    this.myButton.onclick = () => eventBus.emit(events.USER_JOIN_GAME)
+    this.myButton.value = 'End game'
+    this.myButton.onclick = () => eventBus.emit(events.USER_END_GAME)
     this.view.appendChild(this.myButton)
-  }
-
-  join() {
-    this.myButton.value = 'start'
-    this.myButton.onclick = () => eventBus.emit(events.USER_START_GAME)
   }
 
   destroy() {

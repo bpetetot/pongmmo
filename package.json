@@ -49,6 +49,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.16.0",
+    "jvent": "^1.0.2",
     "lodash": "^4.17.2",
     "loglevel": "^1.4.1",
     "p2": "^0.7.1",

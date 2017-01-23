@@ -1,4 +1,5 @@
 class Factory {
+
   constructor() {
     this.states = {}
     this.sockets = []
@@ -23,10 +24,11 @@ class Factory {
   changeTo(name) {
     if (this.state) {
       this.disconnect()
-      if (this.state.name === 'lobby' && name === 'game') {
+      this.state.pause()
+      if ((this.state.name === 'lobby' && name === 'ingame')
+            || (this.state.name === 'ingame' && name === 'lobby')) {
         this.state.destroy()
-      } else {
-        this.state.pause()
+        this.state = null
       }
     }
 
@@ -34,16 +36,16 @@ class Factory {
     let newState = this.states[curName]
     if (newState) {
       this.state = newState
-      this.state.resume()
     } else {
       newState = new this.statesFactories[name]()
       this.state = newState
       this.state.name = name
+      this.state.factory = this
       this.state.broadcast = this.broadcast
       this.state.create()
-      this.state.resume()
     }
 
+    this.state.resume()
     this.connect()
   }
 

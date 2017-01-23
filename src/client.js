@@ -1,9 +1,11 @@
 import io from 'socket.io-client'
 import factory from './states/factory'
 import LobbyClient from './states/lobby/LobbyClient'
+import IngameClient from './states/ingame/IngameClient'
 
 const statesFactories = {
   lobby: LobbyClient,
+  ingame: IngameClient,
 }
 
 const loop = step => () => {
